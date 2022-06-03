@@ -1,3 +1,3 @@
 rootProject.name = "kafka-poison-pills"
 
-include("java-producer")
+include("java-producer", "java-consumer")

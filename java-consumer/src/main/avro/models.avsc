@@ -1,0 +1,7 @@
+{"namespace": "models.avro",
+  "type": "record",
+  "name": "SimpleValue",
+  "fields": [
+    {"name": "theName", "type": "string"}
+  ]
+}
