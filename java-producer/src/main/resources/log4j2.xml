@@ -6,7 +6,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <logger name="org.springframework.boot.actuate.endpoint.jmx" level="warn"/>
+        <logger name="org.apache.kafka.clients.consumer" level="debug"/>
         <Root level="info">
             <AppenderRef ref="Console"/>
         </Root>
