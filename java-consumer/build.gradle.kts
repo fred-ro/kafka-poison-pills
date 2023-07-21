@@ -12,7 +12,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("org.frouleau.kafka.poisonPills.Produce")
+    mainClass.set("org.frouleau.kafka.poisonPills.Consumer")
 }
 
 avro {

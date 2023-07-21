@@ -1,8 +1,9 @@
+# You can modify the used version of Confluent Platform in ".env" by adapting variable CP_VERSION
 ---
-version: '2'
+version: '3'
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.1.1-1-ubi8
+    image: confluentinc/cp-zookeeper:${CP_VERSION}
     restart: always
     container_name: zookeeper
     ports:
@@ -12,7 +13,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   kafka:
-    image: confluentinc/cp-enterprise-kafka:7.1.1-1-ubi8
+    image: confluentinc/cp-server:${CP_VERSION}
     restart: always
     container_name: kafka
     depends_on:
@@ -24,17 +25,18 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_LOG_RETENTION_HOURS: 1
       KAFKA_LOG_SEGMENT_BYTES: 536870912
+      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
       KAFKA_LOG_RETENTION_BYTES: 536870912
       CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: "kafka:9092"
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.1.1-1-ubi8
+    image: confluentinc/cp-schema-registry:${CP_VERSION}
     restart: always
     container_name: schema-registry
     depends_on:
