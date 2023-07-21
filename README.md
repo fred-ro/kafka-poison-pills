@@ -86,6 +86,18 @@ kafka-consumer-groups --bootstrap-server localhost:9092 --group Consumer --descr
 ## Experimenting
 Update the producer and try the different methods.
 
+You may try adding schema validation to the topic (note we just use a run-time configuration here):
+
+```bash
+kafka-configs --bootstrap-server localhost:9092 --alter --entity-type topics --entity-name topic --add-config confluent.value.schema.validation=true
+```
+
+Alternatively, you can delete the topic (see above) and recreat it with schema ID validation enabled:
+
+```bash
+kafka-topics --create --bootstrap-server localhost:9092 --topic topic --config confluent.value.schema.validation=true
+```
+
 ## Shutting down, deleting containers
 
 ```bash
