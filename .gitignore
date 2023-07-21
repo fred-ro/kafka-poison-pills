@@ -24,4 +24,6 @@ hs_err_pid*
 
 build/
 .gradle/
-.idea/
+.idea/*.xml
+java-consumer/bin
+java-producer/bin/
