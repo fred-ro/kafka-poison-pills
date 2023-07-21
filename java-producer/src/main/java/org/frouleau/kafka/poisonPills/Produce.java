@@ -10,6 +10,7 @@ import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.logging.log4j.LogManager;
@@ -54,7 +55,9 @@ public class Produce {
     
     public static void main(String[] args) {
         Produce produce = new Produce();
+        // Enable either the following line or the line after that
         produce.sendWrongAvroProducer(10);
+        //produce.sendAvroProducer(10);
     }
 
     void sendAvroProducer(int nb) {
@@ -67,7 +70,16 @@ public class Produce {
                         .build();
                 ProducerRecord<String, SimpleValue> producerRecord = new ProducerRecord<>(TOPIC, key, value);
                 LOGGER.info("Sending message {}", count);
-                producer.send(producerRecord);
+                producer.send(producerRecord, (RecordMetadata recordMetadata, Exception exception) -> {
+                    if (exception == null) {
+                        System.out.println("Record written to offset " +
+                                recordMetadata.offset() + " timestamp " +
+                                recordMetadata.timestamp());
+                    } else {
+                        System.err.println("An error occurred");
+                        exception.printStackTrace(System.err);
+                    }
+              });
                 count++;
             }
             LOGGER.info("Producer flush");
@@ -85,7 +97,16 @@ public class Produce {
                 String value = "This is message " + key;
                 var producerRecord = new ProducerRecord<>(TOPIC, key, value.getBytes(StandardCharsets.UTF_8));
                 LOGGER.info("Sending message {}", count);
-                producer.send(producerRecord);
+                producer.send(producerRecord, (RecordMetadata recordMetadata, Exception exception) -> {
+                    if (exception == null) {
+                        System.out.println("Record written to offset " +
+                                recordMetadata.offset() + " timestamp " +
+                                recordMetadata.timestamp());
+                    } else {
+                        System.err.println("An error occurred");
+                        exception.printStackTrace(System.err);
+                    }
+                });
                 count++;
             }
             LOGGER.info("Producer flush");
@@ -105,7 +126,16 @@ public class Produce {
                         .build();
                 var producerRecord = new ProducerRecord<>(TOPIC, key, generateAvroValue(value, i != 3));
                 LOGGER.info("Sending message {}", count);
-                producer.send(producerRecord);
+                producer.send(producerRecord, (RecordMetadata recordMetadata, Exception exception) -> {
+                    if (exception == null) {
+                        System.out.println("Record written to offset " +
+                                recordMetadata.offset() + " timestamp " +
+                                recordMetadata.timestamp());
+                    } else {
+                        System.err.println("An error occurred");
+                        exception.printStackTrace(System.err);
+                    }
+                });
                 count++;
             }
             LOGGER.info("Producer flush");
