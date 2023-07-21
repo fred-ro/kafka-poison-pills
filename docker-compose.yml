@@ -1,8 +1,9 @@
+# You can modify the used version of Confluent Platform in ".env" by adapting variable CP_VERSION
 ---
-version: '2'
+version: '3'
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.1.1-1-ubi8
+    image: confluentinc/cp-zookeeper:${CP_VERSION}
     restart: always
     container_name: zookeeper
     ports:
@@ -12,7 +13,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   kafka:
-    image: confluentinc/cp-enterprise-kafka:7.1.1-1-ubi8
+    image: confluentinc/cp-kafka:${CP_VERSION}
     restart: always
     container_name: kafka
     depends_on:
@@ -34,7 +35,7 @@ services:
       CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: "kafka:9092"
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.1.1-1-ubi8
+    image: confluentinc/cp-schema-registry:${CP_VERSION}
     restart: always
     container_name: schema-registry
     depends_on:
